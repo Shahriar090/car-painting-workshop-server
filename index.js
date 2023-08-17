@@ -29,7 +29,9 @@ async function run() {
     await client.connect();
 
     const servicesCollection = client.db('carPaintingWorkshop').collection('services');
+    const bookingCollection = client.db('carPaintingWorkshop').collection('bookings');
 
+    // get all data
     app.get('/services', async(req, res)=>{
         const cursor = servicesCollection.find();
         const result = await cursor.toArray();
@@ -47,6 +49,15 @@ async function run() {
       const result = await servicesCollection.findOne(query, options);
       res.send(result);
     });
+
+    // post api
+    app.post('/bookings', async(req, res)=>{
+      const booking = req.body;
+      console.log(booking)
+      const result = await bookingCollection.insertOne(booking);
+      res.send(result);
+    });
+    
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
