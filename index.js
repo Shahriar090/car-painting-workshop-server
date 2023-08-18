@@ -46,6 +46,7 @@ async function run() {
       const options = {
        projection: { title: 1, price : 1, service_id : 1, img:1 },
       };
+      console.log(options);
       const result = await servicesCollection.findOne(query, options);
       res.send(result);
     });
@@ -68,6 +69,15 @@ async function run() {
       const result = await bookingCollection.insertOne(booking);
       res.send(result);
     });
+
+    // delete api
+
+    app.delete('/bookings/:id', async(req, res)=>{
+      const id = req.params.id;
+      const query = {_id : new ObjectId(id)}
+      const result = await bookingCollection.deleteOne(query);
+      res.send(result);
+    })
     
 
     // Send a ping to confirm a successful connection
